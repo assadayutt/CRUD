@@ -148,7 +148,7 @@ app.post('/addTocart', authenticateToken, (req, res) => {
                 console.error(err);
                 return res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัปเดตตะกร้า' });
               }
-              return res.json({ message: 'เพิ่มสินค้าลงตะกร้าเรียบร้อย (อัปเดตจำนวน)' });
+              return res.json({ message: 'เพิ่มสินค้าลงตะกร้าเรียบร้อย (อัปเดตจำนวน) 555' });
             }
           );
         } else {

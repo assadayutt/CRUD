@@ -1,0 +1,75 @@
+/* รีเซ็ตภายใน container */
+.container * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* พื้นหลังเต็มจอ */
+body {
+  background: linear-gradient(135deg, #e0f7fa, #e3f2fd);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* กล่องฟอร์ม */
+.container {
+  background-color: white;
+  padding: 3rem 3.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+}
+
+/* หัวข้อ */
+.container h2 {
+  margin-bottom: 2rem;
+  color: #1e3a8a;
+  font-weight: 700;
+  font-size: 2rem;
+  border-bottom: 3px solid #3b82f6;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+/* input และ file */
+form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* ปุ่มส่ง */
+form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #1d4ed8;
+}
+
+/* ข้อความตอบกลับ */
+#message {
+  margin-top: 1rem;
+  font-size: 16px;
+  color: green;
+  text-align: center;
+}

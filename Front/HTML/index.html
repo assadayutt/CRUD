@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>User Info</title>
+  <link rel="stylesheet" href="Front/CSS/index.css" />
+</head>
+<body-->
+
+  <div id="navbar-placeholder"></div>
+
+  <!--  index show goods  -->
+
+  <div class="container">
+    <div class="header-bar">
+      <h2>รายการสินค้า</h2>
+      <input type="text" id="searchInput" placeholder="ค้นหาชื่อสินค้า..." />
+    </div>
+
+    <div id="productsContainer" class="products-grid"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  fetch('/goods')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('productsContainer');
+      container.innerHTML = '';
+
+      data.forEach(item => {
+        const productDiv = document.createElement('div');
+        productDiv.classList.add('product');
+
+        productDiv.innerHTML = `
+          <img src="${item.goods_pic}" alt="${item.goods_name}" />
+          <h3>${item.goods_name}</h3>
+          <p>ราคา: ${item.goods_price} บาท</p>
+          <p>คงเหลือ: ${item.goods_stock} ชิ้น</p>
+          <input type="number" class="qty-input" min="1" max="${item.goods_stock}" placeholder="เลือกจำนวน" value=""/>
+          <button class="add-to-cart-btn">เพิ่มลงตะกร้า</button>
+        `;
+
+        const button = productDiv.querySelector('.add-to-cart-btn');
+        const qtyInput = productDiv.querySelector('.qty-input');
+
+        button.addEventListener('click', () => {
+          const qty = parseInt(qtyInput.value);
+
+          if (isNaN(qty) || qty < 1 || qty > item.goods_stock) {
+            alert('❌ กรุณาใส่จำนวนที่ถูกต้อง (อย่างน้อย 1 และไม่เกินจำนวนคงเหลือ)');
+            return;
+          }
+
+          // สร้างข้อมูลที่จะส่ง
+          const payload = {
+            goods_id: item.goods_id,  // สมมติว่าข้อมูลนี้มีใน item
+            quantity: qty
+          };
+
+          // ส่งข้อมูลไปที่ /cart ด้วย POST
+          fetch('/addTocart', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify(payload)
+          })
+          .then(res => {
+            if (!res.ok) throw new Error('เกิดข้อผิดพลาดในการเพิ่มสินค้า');
+            return res.json();
+          })
+          .then(responseData => {
+            console.log('✅ เพิ่มลงตะกร้า:', responseData);
+            alert(`เพิ่ม "${item.goods_name}" จำนวน ${qty} ชิ้น ลงตะกร้าแล้ว`);
+            qtyInput.value = ''; // ล้างช่องกรอกจำนวน
+          })
+          .catch(err => {
+            console.error(err);
+            alert('❌ ไม่สามารถเพิ่มสินค้าลงตะกร้าได้ โปรดลองใหม่อีกครั้ง');
+          });
+        });
+
+        container.appendChild(productDiv);
+      });
+    })
+    .catch(error => {
+      console.error('❌ ไม่สามารถโหลดสินค้า:', error);
+    });
+});
+
+
+
+
+
+    Promise.all([
+      fetch('/View/Nav/sidebar.html').then(res => res.text()),
+    ]).then(([navbarHtml, topbarHtml]) => {
+      document.getElementById('navbar-placeholder').innerHTML = navbarHtml;
+    }).then(() => {
+      window.toggleNav = function () {
+        const sidebar = document.getElementById("mySidebar");
+        if (sidebar.style.width === "250px") {
+          sidebar.style.width = "0";
+        } else {
+          sidebar.style.width = "250px";
+        }
+      }
+    });
+  </script>
+  </body>
+
+</html>

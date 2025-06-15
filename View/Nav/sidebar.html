@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>User Info Page</title>
+  <link rel="stylesheet" href="/Front/CSS/sidebar.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <button class="menu-btn" onclick="toggleNav()">☰</button>
+    <div class="topbar-title">WELCOME</div>
+  </div>
+
+  <!-- Sidebar -->
+  <div id="mySidebar" class="sidebar">
+    <a href="/index.html" id="indexMenu">หน้าหลัก</a>
+    <a href="/addGoodsPage.html" id="indexMenu">เพิ่มสินค้า</a>
+    <a href="/userInfopage.html" id="userInfoMenu">ข้อมูลผู้ใช้</a>
+    <a href="#" onclick="logout()">ออกจากระบบ</a>
+
+  </div>
+
+  <script>
+    function toggleNav() {
+      const sidebar = document.getElementById('mySidebar');
+
+      sidebar.classList.toggle('open');
+    }
+
+    function logout() {
+      Swal.fire({
+        title: 'ยืนยันการออกจากระบบ?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ใช่ ออกจากระบบ',
+        cancelButtonText: 'ยกเลิก'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem('token');
+          window.location.href = '/';
+        }
+      });
+    }
+
+  </script>
+</body>
+
+</html>

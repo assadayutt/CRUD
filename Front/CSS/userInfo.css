@@ -1,0 +1,126 @@
+/* Reset ภายใน container เท่านั้น */
+.container * {
+  margin: 0;
+  padding: 0;
+}
+
+/* พื้นหลังเต็มจอ */
+body {
+  background: linear-gradient(135deg, #e0f7fa, #e3f2fd);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* กล่องข้อมูล */
+.container {
+  background-color: white;
+  padding: 3rem 3.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+}
+
+/* หัวข้อ */
+.container h2 {
+  margin-bottom: 2rem;
+  color: #1e3a8a;
+  font-weight: 700;
+  font-size: 2rem;
+  border-bottom: 3px solid #3b82f6;
+  padding-bottom: 0.5rem;
+}
+
+/* รายการข้อมูล */
+.container > div {
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+  color: #444;
+  line-height: 1.6;
+  display: flex;
+}
+
+/* label */
+.container strong {
+  color: #3b82f6;
+  width: 120px;
+  display: inline-block;
+}
+
+/* ค่าแต่ละฟิลด์ */
+.container #id, 
+.container #name, 
+.container #lastname, 
+.container #phone {
+  font-weight: 600;
+  color: #222;
+}
+
+/* ปุ่ม logout */
+.container .edit-btn {
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.container .edit-btn:hover {
+  background-color: #374151;
+}
+
+/* ปุ่มอื่น */
+.container .button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.container .button:hover {
+  background-color: #1d4ed8;
+}
+
+/* input edit */
+.container .edit-input {
+  font-size: 1rem;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 70%;
+  max-width: 300px;
+}
+
+/* ปุ่มลบ */
+.container .delete-btn {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.container .delete-btn:hover {
+  background-color: #b42424;
+}

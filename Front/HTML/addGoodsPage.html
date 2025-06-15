@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Goods</title>
+  <link rel="stylesheet" href="Front/CSS/addGoods.css" />
+</head>
+<body-->
+
+  <div id="navbar-placeholder"></div>
+
+  <!--  index show goods  -->
+
+<div class="container">
+    <h2>เพิ่มสินค้า</h2>
+    <form id="productForm" enctype="multipart/form-data">
+      <input type="text" name="goods_name" placeholder="ชื่อสินค้า" required />
+      <input type="number" name="goods_price" placeholder="ราคาสินค้า" required />
+      <input type="number" name="goods_stock" placeholder="จำนวนคงเหลือ" required />
+      <input type="file" name="goods_pic" accept="image/*" required />
+      <button type="submit">เพิ่มสินค้า</button>
+    </form>
+    <p id="message"></p>
+  </div>
+
+
+
+  <script>
+    
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+
+      const response = await fetch('/addGoods', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.text();
+      document.getElementById('message').textContent = result;
+      form.reset();
+    });
+  
+
+
+    Promise.all([
+      fetch('/View/Nav/sidebar.html').then(res => res.text()),
+    ]).then(([navbarHtml, topbarHtml]) => {
+      document.getElementById('navbar-placeholder').innerHTML = navbarHtml;
+    }).then(() => {
+      window.toggleNav = function () {
+        const sidebar = document.getElementById("mySidebar");
+        if (sidebar.style.width === "250px") {
+          sidebar.style.width = "0";
+        } else {
+          sidebar.style.width = "250px";
+        }
+      }
+    });
+  </script>
+  </body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>User Info</title>
+    <link rel="stylesheet" href="Front/CSS/index.css" />
+</head>
+<body-->
+
+    <div id="navbar-placeholder"></div>
+
+    <!--  index show goods  -->
+
+    <div class="container">
+        <div class="header-bar">
+            <h2>ตระกร้าของฉัน</h2>
+
+        </div>
+
+        <div id="Cart" class="products-grid"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/cartShow')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('Cart');
+                    container.innerHTML = '';
+
+                    let totalContainer = document.createElement('div');
+                    totalContainer.innerHTML = ` <p id="totalPrice">ราคารวม: 0 บาท</p><button id="checkoutBtn">ชำระเงิน</button>`;
+                    container.appendChild(totalContainer);
+
+                    data.forEach((item, index) => {
+                        const productDiv = document.createElement('div');
+                        productDiv.classList.add('product');
+
+                        productDiv.innerHTML = `<input type="checkbox" class="item-checkbox" data-price="${item.goods_price}" id="check${index}" />
+                        <label for="check${index}">
+                        <img src="${item.goods_pic}" alt="${item.goods_name}" />
+                        <h3>${item.goods_name}</h3>
+                        <p>ราคา: ${item.goods_price} บาท</p>
+                        </label>`;
+                        container.insertBefore(productDiv, totalContainer);
+                    });
+
+                    // เมื่อมีการเลือก checkbox ให้คำนวณราคารวมใหม่
+                    container.addEventListener('change', () => {
+                        const checkboxes = container.querySelectorAll('.item-checkbox');
+                        let total = 0;
+                        checkboxes.forEach(cb => {
+                            if (cb.checked) {
+                                total += parseFloat(cb.dataset.price);
+                            }
+                        });
+                        document.getElementById('totalPrice').textContent = `ราคารวม: ${total.toLocaleString()} บาท`;
+                    });
+
+                    // เมื่อคลิกปุ่ม "ชำระเงิน"
+                    document.getElementById('checkoutBtn').addEventListener('click', () => {
+                        const selectedItems = [];
+                        container.querySelectorAll('.item-checkbox').forEach((cb, i) => {
+                            if (cb.checked) {
+                                selectedItems.push(data[i].goods_name);
+                            }
+                        });
+
+                        if (selectedItems.length === 0) {
+                            alert("❌ กรุณาเลือกสินค้าที่ต้องการชำระเงิน");
+                        } else {
+                            alert(`✅ คุณเลือกชำระเงินสำหรับสินค้า: \n- ${selectedItems.join("\n- ")}`);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('❌ ไม่สามารถโหลดสินค้า:', error);
+                });
+        });
+
+
+
+
+
+
+        Promise.all([
+            fetch('/View/Nav/sidebar.html').then(res => res.text()),
+        ]).then(([navbarHtml, topbarHtml]) => {
+            document.getElementById('navbar-placeholder').innerHTML = navbarHtml;
+        }).then(() => {
+            window.toggleNav = function () {
+                const sidebar = document.getElementById("mySidebar");
+                if (sidebar.style.width === "250px") {
+                    sidebar.style.width = "0";
+                } else {
+                    sidebar.style.width = "250px";
+                }
+            }
+        });
+    </script>
+    </body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/Front/CSS/login.css">
+  <title>เข้าสู่ระบบ</title>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>เข้าสู่ระบบ</h2>
+    <form  method="post" id="loginForm">
+      <div class="form-group">
+        <label for="username">ชื่อผู้ใช้ หรือ อีเมล</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">รหัสผ่าน</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <button type="submit" class="btn">เข้าสู่ระบบ</button>
+    </form>
+
+    <div class="footer">
+      ยังไม่มีบัญชี? <a href="/register.html">สมัครสมาชิก</a>
+    </div>
+  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+    
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+    
+      try {
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+    
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text);
+        }
+    
+        const data = await res.json();
+    
+        // เก็บ token ลง localStorage
+        localStorage.setItem('token', data.token);
+    
+        // ไปหน้า index.html
+        window.location.href = 'index.html';
+    
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+    </script>
+</body>
+</html>
